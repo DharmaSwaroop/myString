@@ -154,49 +154,61 @@ void strrev1(char str1[])
     }
 }
 
-char* strtok1(char str1[], char delm)
+char* strtok1( char str1[], char delm)
 {
-    
-    char* res;
-    int size = getlen(str1);
+    static char* start;
+    if(str1!=NULL)
+    {
+        start = str1;
+    }
+    char* res=NULL;
+    int size = getlen(start);
     int temp=0;
    if(size<=0)
    {
-    return str1;
+    return start;
    }
     for(int i=0;i<size;i++){
-        if(temp==0 && str1[i]==delm)
+        if(temp==0 && start[i]==delm)
         {
+            if(start[i+1]=='\0')//This is when string ends with delimiters..
+            {
+                start=start+i+1;
+                return start;
+            }
             
             continue;
         }
-        else if(temp==1 && str1[i]==delm)
+        else if(temp==1 && start[i]==delm)
         {
-            res[i]='\0';
-            str1 = str1+i+1;
+      
+            start[i]='\0';
+        
+            start = start+i+1;
             break;
+           // return res;
         }
         else{
             if(temp==0)
             {
-                res=str1+i;
+                res=start+i;
                 temp=1;
             }
+            else{
+            if(start[i+1]=='\0')//To know the end of the string
+                {
+                    start=start+i+1;
+                }
+                continue;
+            }
             
-        
-            //res = str1+i;
-            continue;
             
         }
-        
-        
     }
+    
     return res;
 
 }
-
-
-
 
 
 
